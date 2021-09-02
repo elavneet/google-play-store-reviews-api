@@ -21,7 +21,7 @@ const PACKAGE_NAME = "com.ramarya.pb35";
     const scriptTags = $("script");
     for (let i = 0; i < scriptTags.length; i++) {
       let scriptTag = $(scriptTags[i]).html();
-      if (scriptTag.toLowerCase().includes("prakul")) {
+      if (scriptTag.toLowerCase().includes("vaf_")) {
         scriptTag = scriptTag.slice(20).slice(0, -2);
 
         scriptTag = RJSON.parse(scriptTag);
