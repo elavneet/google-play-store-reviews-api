@@ -70,7 +70,7 @@ async function downloadImage(uri, filename) {
       }
     }
 
-    console.log(allPositiveReviews);
+    console.log(`Finished`);
     process.exit(0);
   } catch (err) {
     console.log(`error while retrieving reviews`, err);
