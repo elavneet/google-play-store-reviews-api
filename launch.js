@@ -1,6 +1,7 @@
 const cheerio = require("cheerio");
 let axios = require("axios");
 const RJSON = require("relaxed-json");
+let request = require("request");
 const httpClient = axios.create();
 httpClient.defaults.timeout = 50000;
 
