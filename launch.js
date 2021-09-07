@@ -6,6 +6,18 @@ httpClient.defaults.timeout = 50000;
 
 const PACKAGE_NAME = "com.ramarya.pb35";
 
+async function downloadImage(uri, filename) {
+  return new Promise((resolve, _) => {
+    request.head(uri, function (err, res, body) {
+      request(uri)
+        .pipe(fs.createWriteStream(filename))
+        .on("close", () => {
+          resolve(true);
+        });
+    });
+  });
+}
+
 (async () => {
   try {
     const response = await httpClient.get(
@@ -19,6 +31,7 @@ const PACKAGE_NAME = "com.ramarya.pb35";
     //console.log(response.data);
     const $ = cheerio.load(response.data);
     const scriptTags = $("script");
+    let allPositiveReviews = [];
     for (let i = 0; i < scriptTags.length; i++) {
       let scriptTag = $(scriptTags[i]).html();
       if (scriptTag.toLowerCase().includes("vaf_")) {
@@ -33,12 +46,20 @@ const PACKAGE_NAME = "com.ramarya.pb35";
           const userName = reviews[j][1][0];
           const userImage = reviews[j][1][1][3][2];
 
-          console.log({ starRatings, reviewText, userName, userImage });
+          try {
+            imageLocalFileName = userName.toLowerCase().replace(" ", "-") + "-" + new Date().getTime() + ".png";
+            await downloadImage(userImage, "/var/www/files.pb35.com/public_html/review-images/" + imageLocalFileName);
+          } catch (err) {
+            console.log(`Cannnot find an image for this item`, item.simples[j].mobileImages);
+          }
+
+          if (starRatings >= 4) allPositiveReviews.push({ starRatings, reviewText, userName, userImage });
         }
         break;
       }
     }
 
+    console.log(allPositiveReviews);
     return;
   } catch (err) {
     console.log(`error while retrieving reviews`, err);
