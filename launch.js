@@ -49,7 +49,7 @@ async function downloadImage(uri, filename) {
           const userImage = reviews[j][1][1][3][2];
 
           try {
-            imageLocalFileName = userName.toLowerCase().replace(" ", "-") + "-" + new Date().getTime() + ".png";
+            imageLocalFileName = userName.toLowerCase().replaceAll(" ", "-") + "-" + new Date().getTime() + ".png";
             await downloadImage(userImage, "/var/www/files.pb35.com/public_html/review-images/" + imageLocalFileName);
           } catch (err) {
             console.log(`Cannnot find an image for this item`, err);
