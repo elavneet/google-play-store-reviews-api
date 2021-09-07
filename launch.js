@@ -1,4 +1,5 @@
 const cheerio = require("cheerio");
+var fs = require("fs");
 let axios = require("axios");
 const RJSON = require("relaxed-json");
 let request = require("request");
