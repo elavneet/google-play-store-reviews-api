@@ -50,7 +50,7 @@ async function downloadImage(uri, filename) {
             imageLocalFileName = userName.toLowerCase().replace(" ", "-") + "-" + new Date().getTime() + ".png";
             await downloadImage(userImage, "/var/www/files.pb35.com/public_html/review-images/" + imageLocalFileName);
           } catch (err) {
-            console.log(`Cannnot find an image for this item`, item.simples[j].mobileImages);
+            console.log(`Cannnot find an image for this item`, err);
           }
 
           if (starRatings >= 4) allPositiveReviews.push({ starRatings, reviewText, userName, userImage });
