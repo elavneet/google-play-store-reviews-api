@@ -1,5 +1,6 @@
 const cheerio = require("cheerio");
 var fs = require("fs");
+const db = require("./db");
 let axios = require("axios");
 const RJSON = require("relaxed-json");
 let request = require("request");
@@ -49,8 +50,16 @@ async function downloadImage(uri, filename) {
           const userImage = reviews[j][1][1][3][2];
 
           try {
-            imageLocalFileName = userName.toLowerCase().replace(/\W/g, "") + "-" + new Date().getTime() + ".png";
+            const imageLocalFileName = userName.toLowerCase().replace(/\W/g, "") + "-" + new Date().getTime() + ".png";
             await downloadImage(userImage, "/var/www/files.pb35.com/public_html/review-images/" + imageLocalFileName);
+
+            await db.query(`INSERT INTO reviews (name, stars, review, tp_image_url, image_path) VALUES(?,?,?,?,?)`, [
+              userName,
+              starRatings,
+              reviewText,
+              userImage,
+              imageLocalFileName,
+            ]);
           } catch (err) {
             console.log(`Cannnot find an image for this item`, err);
           }
