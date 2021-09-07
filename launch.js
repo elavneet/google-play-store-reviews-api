@@ -45,7 +45,7 @@ async function downloadImage(uri, filename) {
 
         for (j = 0; j < reviews.length; j++) {
           const starRatings = reviews[j][2];
-          const reviewText = reviews[j][4];
+          const reviewText = reviews[j][4].replace(/[^\w\s]/gi, "");
           const userName = reviews[j][1][0];
           const userImage = reviews[j][1][1][3][2];
 
